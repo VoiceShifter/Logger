@@ -6,4 +6,4 @@ Apr 14 2024 16:09:15 server-prod ERROR mysqld[3102]: Table './database/users' is
 Apr 14 2024 16:10:01 server-prod WARNING named[8912]: client @0x7fde6c541210 192.168.1.25#56210: query (cache) 'example.com/A/IN' denied
 Apr 14 2024 16:11:42 server-prod INFO sshd[6022]: Accepted publickey for deploy from 192.168.1.102 port 54022 ssh2: RSA SHA256:NTh5JY5R4U
 Apr 14 2024 16:12:27 server-prod WARNING smbd[4658]: [2024/04/14 16:12:27.987123,  2] ../lib/util/become_daemon.c:124(daemon_ready)
-Apr 14 2024 16:13:53 server-prod ERROR systemd[1]: Failed to start Load Kernel Modules.
+Apr 14 2024 16:13:53 server-prod ERROR systemd[1]: Failed to start Load Kernel Modules

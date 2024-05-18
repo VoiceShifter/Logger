@@ -30,6 +30,7 @@ public:
       void PrintSpecificLevel(char);
       void PrintTokensLine(size_t pLine);
       std::vector<std::vector<std::string>> Tokens;
+      friend void PrintGreetings(LoggerParser& Object);
 
 private:
       std::fstream fLogFile;
@@ -53,9 +54,7 @@ LoggerParser::LoggerParser(char* pLogFile) : fStatistic{}
             std::cout << "No such file\n";
             return;
       }
-      
-      
-
+      AnalyzeLog();
 }
 
 
@@ -79,7 +78,6 @@ inline void LoggerParser::PrintTokensLine(size_t pLine)
       {
             auto Buffer{ Tokens[pLine][Iterator] };
             std::cout << Buffer << ' ';
-
       }
       std::cout << '\n';
 }
@@ -98,9 +96,27 @@ void LoggerParser::AnalyzeLog()
             for (; Token != nullptr;)
             {
                   Tokens[Iterator].push_back(Token);
-                  //std::cout << Token << " ";
-                  
-                  Token = std::strtok(nullptr, " ");
+                  //std::cout << Token << " ";                  
+                  Token = std::strtok(nullptr, " ");                  
+            }
+            ++this->fStatistic.CommonAmount;
+            switch (Tokens[Iterator][static_cast<size_t>(Items::LoggingLevel)][0])
+            {
+            case 69:
+                  ++this->fStatistic.ErrorAmount;
+                  break;
+
+            case 87:
+                  ++this->fStatistic.WarningAmount;
+                  break;
+
+            case 73:
+                  ++this->fStatistic.InfoAmount;
+                  break;
+
+            default:
+                  std::cout << "Not mentioned log level found\n";
+                  break;
             }
             //std::cout << '\n';
       }      
@@ -118,3 +134,16 @@ inline void LoggerParser::PrintSpecificLevel(char pLevel)
       }
 }
 
+
+void PrintGreetings(LoggerParser& Object)
+{
+      std::cout << "LOGGER\n";
+      for (size_t Iterator{}; Iterator < Object.Tokens.size(); ++Iterator)
+      {
+            Object.PrintTokensLine(Iterator);
+      }
+      std::cout << "\nPercent% of ERRORS'S - " << Object.fStatistic.ErrorAmount / float(Object.fStatistic.CommonAmount) << '\n';
+      std::cout << "Percent% of WARNING'S - " << Object.fStatistic.WarningAmount / float(Object.fStatistic.CommonAmount) << '\n';
+      std::cout << "Percent% of INFO'S - " << Object.fStatistic.InfoAmount / float(Object.fStatistic.CommonAmount) << '\n';
+
+}

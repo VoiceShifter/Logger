@@ -8,12 +8,10 @@ signed int main(unsigned int argc, char **argv)
             std::cout << "Too many arguments\n";
             return 0;
       }
-      else
-      {
-            LoggerParser Parser(argv[1]);
-            Parser.AnalyzeLog();
-//          Parser.PrintTokensLine(1);
-
-      }
+      LoggerParser Parser(argv[1]);
+      PrintGreetings(Parser);
+//    Parser.PrintTokensLine(1);
+            
+      
       
 }
