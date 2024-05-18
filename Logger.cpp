@@ -1,7 +1,7 @@
 
 #include "Logger.h"
 
-int main(unsigned int argc, char **argv)
+signed int main(unsigned int argc, char **argv)
 {
       if (argc > 2)
       {
