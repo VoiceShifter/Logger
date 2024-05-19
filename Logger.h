@@ -7,6 +7,14 @@
 
 # define _CRT_SECURE_NO_WARNINGS
 
+struct Colors
+{
+      const std::string RedColor{ "\033[0;31m" };
+      const std::string YellowColor{ "\033[0;33m" };
+      const std::string BlueColor{ "\033[0;36m" };
+      const std::string Reset{ "\033[0m" };
+} Colors;
+
 enum class Items : size_t 
 {
       Month,
@@ -76,8 +84,25 @@ inline void LoggerParser::PrintTokensLine(size_t pLine)
 {
       for (size_t Iterator{}; Iterator < Tokens[pLine].size(); ++Iterator)
       {
-            auto Buffer{ Tokens[pLine][Iterator] };
-            std::cout << Buffer << ' ';
+            if (Iterator == 5)
+            {
+                  switch (Tokens[pLine][Iterator][0])
+                  {
+                  case 69:
+                        std::cout << Colors.RedColor;
+                        break;
+                  case 73:
+                        std::cout << Colors.YellowColor;
+                        break;
+                  case 87:
+                        std::cout << Colors.BlueColor;
+                        break;
+
+                  default:
+                        break;
+                  }                  
+            }
+            std::cout << Tokens[pLine][Iterator] << ' ' << Colors.Reset;
       }
       std::cout << '\n';
 }
@@ -134,16 +159,43 @@ inline void LoggerParser::PrintSpecificLevel(char pLevel)
       }
 }
 
+void PrintOptions()
+{
+      std::cout << "Input: \n 1: To print only " << Colors.RedColor << "error's\n" << Colors.Reset;
+      std::cout << " 2: To print only " << Colors.YellowColor << "warning's \n" << Colors.Reset;
+      std::cout << " 3: To print only " << Colors.BlueColor << "info's\n" << Colors.Reset;
+}
 
 void PrintGreetings(LoggerParser& Object)
 {
+      signed int Choice{};
+
       std::cout << "LOGGER\n";
       for (size_t Iterator{}; Iterator < Object.Tokens.size(); ++Iterator)
       {
             Object.PrintTokensLine(Iterator);
       }
-      std::cout << "\nPercent% of ERRORS'S - " << Object.fStatistic.ErrorAmount / float(Object.fStatistic.CommonAmount) << '\n';
-      std::cout << "Percent% of WARNING'S - " << Object.fStatistic.WarningAmount / float(Object.fStatistic.CommonAmount) << '\n';
-      std::cout << "Percent% of INFO'S - " << Object.fStatistic.InfoAmount / float(Object.fStatistic.CommonAmount) << '\n';
+      std::cout << "\nPercent% of ERRORS'S - " << (Object.fStatistic.ErrorAmount / float(Object.fStatistic.CommonAmount))*100 << "%" << '\n';
+      std::cout << "Percent% of WARNING'S - " << (Object.fStatistic.WarningAmount / float(Object.fStatistic.CommonAmount))*100 << "%" << '\n';
+      std::cout << "Percent% of INFO'S - " << (Object.fStatistic.InfoAmount / float(Object.fStatistic.CommonAmount))*100 << "%" << '\n' << '\n'; 
+
+      PrintOptions();
+      std::cin >> Choice;
+      std::cin.clear();
+      switch (Choice)
+      {
+      case 1: 
+            break;
+      case 2:
+            break;
+      case 3:
+            break;
+
+      default:
+            std::cout << "No such option\n";
+            PrintOptions();
+            break;
+      }
 
 }
+
