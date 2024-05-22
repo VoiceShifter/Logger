@@ -20,6 +20,7 @@ qt_add_qml_module(appRealTest
 
         Component/ColorsNSizes.qml
         Component/qmldir
+        QML_FILES Component/MainScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -37,7 +37,7 @@ Item {
     readonly property double _TextFieldScale : 1.2
     readonly property double _ButtonScaleX : 5
     readonly property double _ButtonScaleY : 4
-    readonly property double _CheckBoxLineScaleY : 14
+
 
 
     readonly property double _SubjectScaleX : 1.1
@@ -54,5 +54,5 @@ Item {
 
 
 
-
+    readonly property double _CheckBoxLineScaleY : 12
 }

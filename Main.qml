@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import "Component"
 
 Window {
@@ -102,23 +103,24 @@ Window {
                     anchors.centerIn: parent
                 }
         }
-
-
-
-    }
-    Row
+    } //row ending
+    Loader
     {
-        id: _CheckBoxRow
-        height: parent.height / ColorsNSizes._CheckBoxLineScaleY
+        id: _Loader
+        anchors.top: _ButtonRow.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width
-        Rectangle
+        height: parent.height - _ButtonRow.height
+        source: "Component/MainScreen.qml"
+
+
+        MouseArea
         {
             anchors.fill: parent
-            color: ColorsNSizes._ThirdColor
-            border.color: "black"
-            border.width: 1
+            onClicked: {
+                console.log("Loader territory clicked");
+            }
         }
-        anchors.top: _ButtonRow.bottom
-        anchors.topMargin: -1
+
     }
 }
