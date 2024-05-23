@@ -10,7 +10,7 @@ Window {
     color: "#5682a3"
 
     Row {
-
+        z: 2
         id: _ButtonRow
         width: parent.width / ColorsNSizes._ButtonScaleY
         height: parent.height / ColorsNSizes._ButtonScaleY
@@ -112,7 +112,7 @@ Window {
         width: parent.width
         height: parent.height - _ButtonRow.height
         source: "Component/MainScreen.qml"
-
+        Component.onCompleted: console.log(parent.width)
 
         MouseArea
         {
