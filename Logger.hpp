@@ -74,7 +74,7 @@ public:
     Q_INVOKABLE void _PopulateItems();
     Q_INVOKABLE void _Constructor(const QString pLogFile);
     Q_INVOKABLE int _GetAmount();
-    Q_INVOKABLE void _FilterChanged();
+    Q_INVOKABLE void _FilterChanged(signed int pFilter, bool pState);
 
 
 
@@ -103,6 +103,9 @@ private:
         size_t CommonAmount;
     } fStatistic;
     char* fFileName{};
+    std::vector<std::pair<char, bool>> fFilters{{'e', 1}, {'w', 1}, {'i', 1}}; //error warning info
+
+
 
     void FillVector(std::vector<std::string>& pVector);
     void TokenizeString(std::string&);

@@ -42,6 +42,7 @@ Item
                 font.pixelSize: ColorsNSizes._SmallFont
                 text: qsTr("Error")
                 height: parent.height
+
             }
             CheckBox
             {
@@ -90,12 +91,15 @@ Item
                         font.bold: true
                         text: modelData
                         anchors.fill: parent
-
+                        // anchors.verticalCenter: parent.verticalCenter
+                        // anchors.horizontalCenter: parent.horizontalCenter
                         font.pointSize: 12
                         color: "black"
 
                     }
                 }
-
+    }
+    WheelHandler {
+            onWheel: (event)=>{_ListLines.flick(0, event.angleDelta.y*event.y)}
     }
 }

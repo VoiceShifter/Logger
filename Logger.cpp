@@ -285,7 +285,59 @@ void Logger::_TranslateToItems()
     emit listPopulated();
 }
 
-void Logger::_FilterChanged()
+void Logger::_FilterChanged(signed int pFilter, bool pState)
 {
+    Items.clear();
+    this->fStatistic = {};
+    fFilters[pFilter].second = pState;
 
+
+    for (size_t Iterator{}; Iterator < Tokens.size(); ++Iterator)
+    {
+
+        ++this->fStatistic.CommonAmount;
+        switch (Tokens[Iterator][static_cast<size_t>(Items::LoggingLevel)][0])
+        {
+        case 69:
+            if (fFilters[0].second)
+            {
+                ++this->fStatistic.ErrorAmount;
+                for (size_t Inner{}; Inner < Tokens[Iterator].size(); ++Inner)
+                {
+                    Items[Iterator] += Tokens[Iterator][Inner] + ' ';
+                }
+            }
+            break;
+
+        case 87:
+            if (fFilters[1].second)
+            {
+                ++this->fStatistic.WarningAmount;
+                for (size_t Inner{}; Inner < Tokens[Iterator].size(); ++Inner)
+                {
+                    Items[Iterator] += Tokens[Iterator][Inner] + ' ';
+                }
+            }
+
+            break;
+
+        case 73:
+            if (fFilters[1].second)
+            {
+                ++this->fStatistic.InfoAmount;
+                for (size_t Inner{}; Inner < Tokens[Iterator].size(); ++Inner)
+                {
+                    Items[Iterator] += Tokens[Iterator][Inner] + ' ';
+                }
+            }
+
+            break;
+
+        default:
+            std::cout << "Not mentioned log level found\n";
+            break;
+        }
+
+
+    }
 }
