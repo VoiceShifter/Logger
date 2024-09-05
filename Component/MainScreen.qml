@@ -14,6 +14,7 @@ Item
 
             _Logger._Constructor(Qt.application.arguments[1])
             console.log("Logger initialized, Items count: " + _Logger._Items.length)
+
         }
 
     }
@@ -42,6 +43,19 @@ Item
                 font.pixelSize: ColorsNSizes._SmallFont
                 text: qsTr("Error")
                 height: parent.height
+                onClicked:
+                {
+                    if (_ErrorCheckBox.checked === true)
+                    {
+                        _Logger._FilterChanged(0, true)
+                    }
+                    else
+                    {
+
+                        _Logger._FilterChanged(0, false)
+                    }
+                    console.log(this.checked, " - status of clicked checkbox")
+                }
 
             }
             CheckBox
@@ -52,6 +66,18 @@ Item
                 font.pixelSize: ColorsNSizes._SmallFont
                 text: qsTr("Warning")
                 height: parent.height
+                onClicked:
+                {
+                    if (_WarningCheckBox.checked === true)
+                    {
+                        _Logger._FilterChanged(1, true)
+                    }
+                    else
+                    {
+                        _Logger._FilterChanged(1, false)
+                    }
+                    console.log(this.checked, " - status of clicked checkbox")
+                }
             }
             CheckBox
             {
@@ -61,6 +87,18 @@ Item
                 font.pixelSize: ColorsNSizes._SmallFont
                 text: qsTr("Info")
                 height: parent.height
+                onClicked:
+                {
+                    if (_InfoCheckBox.checked === true)
+                    {
+                        _Logger._FilterChanged(2, true)
+                    }
+                    else
+                    {
+                        _Logger._FilterChanged(2, false)
+                    }
+                    console.log(this.checked, " - status of clicked checkbox")
+                }
             }
 
         }
@@ -70,11 +108,14 @@ Item
 
     ListView
     {
+
         z: -1
         id: _ListLines
         anchors.top: _CheckBoxCorner.bottom
         width: parent.width
-        height: 90 * 60
+        height: 11 * 60
+
+
         model: _Logger._Items
         delegate:
 
@@ -83,23 +124,29 @@ Item
                     id: _Deligated
                     border.color: "black"
                     border.width: 1
-                    width: parent.width
+                    width: _ListLines.width
                     height: 60
                     Text {
 
                         id: name
                         font.bold: true
                         text: modelData
-                        anchors.fill: parent
-                        // anchors.verticalCenter: parent.verticalCenter
+
+                        anchors.verticalCenter: parent.verticalCenter
                         // anchors.horizontalCenter: parent.horizontalCenter
                         font.pointSize: 12
                         color: "black"
 
                     }
                 }
+
+
     }
     WheelHandler {
             onWheel: (event)=>{_ListLines.flick(0, event.angleDelta.y*event.y)}
+        }
+
+    ScrollBar.vertical: ScrollBar {
+      active: true
     }
 }

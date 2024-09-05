@@ -182,6 +182,7 @@ void Logger::TokenizeString(std::string& pString)
         //std::cout << Token << " ";
         Token = std::strtok(nullptr, " ");
     }
+    qDebug() << "_Tokenize string called";
 }
 
 
@@ -223,7 +224,8 @@ void Logger::setItems(const QStringList &newItems)
             Items[Iterator] += Tokens[Iterator][Inner] + ' ';
         }
     }
-    setAmount(Items.size());
+    qDebug() << "setItems called";
+
     emit listPopulated();
 }
 
@@ -249,6 +251,7 @@ void Logger::_Constructor(const QString pLogFile)
 {
     fLogFile.open(pLogFile.toStdString().c_str(), std::ios::in);
     fFileName = const_cast<char*>(pLogFile.toStdString().c_str());
+    qDebug() << fFileName;
     if (!fLogFile)
     {
         qDebug() << "No such file\n";
@@ -256,10 +259,12 @@ void Logger::_Constructor(const QString pLogFile)
     }
     AnalyzeLog();
     _TranslateToItems();
+    setAmount(Items.size());
 }
 
 int Logger::_GetAmount()
 {
+    qDebug() << "_GetAmount called";
     qDebug() << Items.size();
     return Items.size();
 }
@@ -282,17 +287,20 @@ void Logger::_TranslateToItems()
     {
         qDebug() << Iterator;
     }
+    qDebug() << "_TranslateToItems called";
     emit listPopulated();
 }
 
 void Logger::_FilterChanged(signed int pFilter, bool pState)
 {
     Items.clear();
+
     this->fStatistic = {};
     fFilters[pFilter].second = pState;
+    qDebug() << pFilter << " Filter\n" << pState << " - state\n";
 
 
-    for (size_t Iterator{}; Iterator < Tokens.size(); ++Iterator)
+    for (size_t Iterator{}, InnerIterator{}; Iterator < Tokens.size(); ++Iterator)
     {
 
         ++this->fStatistic.CommonAmount;
@@ -302,10 +310,13 @@ void Logger::_FilterChanged(signed int pFilter, bool pState)
             if (fFilters[0].second)
             {
                 ++this->fStatistic.ErrorAmount;
+                Items.push_back("");
+
                 for (size_t Inner{}; Inner < Tokens[Iterator].size(); ++Inner)
-                {
-                    Items[Iterator] += Tokens[Iterator][Inner] + ' ';
+                {                    
+                    Items[InnerIterator] += Tokens[Iterator][Inner] + ' ';
                 }
+                ++InnerIterator;
             }
             break;
 
@@ -313,22 +324,26 @@ void Logger::_FilterChanged(signed int pFilter, bool pState)
             if (fFilters[1].second)
             {
                 ++this->fStatistic.WarningAmount;
+                Items.push_back("");
                 for (size_t Inner{}; Inner < Tokens[Iterator].size(); ++Inner)
                 {
-                    Items[Iterator] += Tokens[Iterator][Inner] + ' ';
+                    Items[InnerIterator] += Tokens[Iterator][Inner] + ' ';
                 }
+                ++InnerIterator;
             }
 
             break;
 
         case 73:
-            if (fFilters[1].second)
+            if (fFilters[2].second)
             {
                 ++this->fStatistic.InfoAmount;
+                Items.push_back("");
                 for (size_t Inner{}; Inner < Tokens[Iterator].size(); ++Inner)
                 {
-                    Items[Iterator] += Tokens[Iterator][Inner] + ' ';
+                    Items[InnerIterator] += Tokens[Iterator][Inner] + ' ';
                 }
+                ++InnerIterator;
             }
 
             break;
@@ -340,4 +355,7 @@ void Logger::_FilterChanged(signed int pFilter, bool pState)
 
 
     }
+    emit listPopulated();
+    _PrintItems();
+
 }
